@@ -73,8 +73,26 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-        status: 'error',
-        message: error.message
-    })
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ["password"] },
+    });
+
+    res.json({
+      status: "success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error.message,
+    });
   }
 };
